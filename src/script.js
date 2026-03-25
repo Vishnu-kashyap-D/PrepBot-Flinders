@@ -178,3 +178,64 @@ function setInputLocked(locked) {
   if (locked) inputRow.style.opacity = "0.7";
   else inputRow.style.opacity = "1";
 }
+
+/* ═══════════════════════════════════════════════════════════
+   MARKDOWN PARSER
+═══════════════════════════════════════════════════════════ */
+
+/**
+ * Lightweight, zero-dependency Markdown renderer.
+ * Handles: Code blocks, inline code, bold, italic, unordered lists.
+ */
+function renderMarkdown(md) {
+  // 1) Escape raw HTML first (XSS protection)
+  let html = escapeHtml(md);
+
+  // 2) Code blocks: ```lang ... ```
+  html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, function (match, lang, code) {
+    return `<pre><code>${code}</code></pre>`;
+  });
+
+  // 3) Inline formatting
+  html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>"); // Bold
+  html = html.replace(/\*(.*?)\*/g, "<em>$1</em>");             // Italic
+  html = html.replace(/`(.*?)`/g, "<code>$1</code>");           // Inline code
+  html = html.replace(/### (.*?)\n/g, "<h3>$1</h3>\n");         // H3
+
+  // 4) Unordered lists: lines starting with * or -
+  // We wrap consecutive list items in <ul>
+  const lines = html.split("\n");
+  let inList = false;
+  for (let i = 0; i < lines.length; i++) {
+    const isListItem = lines[i].trim().match(/^[-*]\s+(.*)$/);
+    if (isListItem) {
+      if (!inList) {
+        lines[i] = "<ul><li>" + isListItem[1] + "</li>";
+        inList = true;
+      } else {
+        lines[i] = "<li>" + isListItem[1] + "</li>";
+      }
+    } else {
+      if (inList) {
+        lines[i - 1] += "</ul>";
+        inList = false;
+      }
+    }
+  }
+  if (inList) lines[lines.length - 1] += "</ul>";
+
+  // 5) Paragraphs: replace standard double newlines or single newlines
+  const textWithoutLists = lines.join("\n");
+  const paragraphs = textWithoutLists
+    .split(/\n\n+/)
+    .map(p => {
+      // Don't wrap <pre> or <ul> arrays in <p> tag if it solely contains block elements
+      if (p.startsWith("<pre>") || p.startsWith("<ul>") || p.startsWith("<h3>")) {
+        return p;
+      }
+      return `<p>${p.replace(/\n/g, "<br/>")}</p>`; // Single newlines to <br/>
+    })
+    .join("");
+
+  return paragraphs;
+}
