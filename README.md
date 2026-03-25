@@ -15,3 +15,19 @@ PlaceBot is a **topic-locked AI chatbot** that acts as your personal placement m
 - 🗣️ **Soft Skills** — communication, confidence, body language
 - 🏢 **Company Preparation** — TCS, Infosys, Amazon, Google & more
 - ✉️ **Offer & Email Etiquette** — acceptance, follow-up, negotiation templates
+
+---
+
+## 🗂 Project Structure
+
+```
+PlaceBot/
+├── index.html          # Landing page
+├── chat.html           # Chatbot interface
+├── README.md
+├── .gitignore
+└── src/
+    ├── style.css       # Dark + light theme styling
+    ├── theme.js        # Theme toggle (persisted in localStorage)
+    └── script.js       # Chat logic, API calls, markdown renderer
+```
