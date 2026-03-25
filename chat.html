@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlaceBot — Chat</title>
+    <meta name="description"
+        content="Chat with PlaceBot — your AI placement mentor for HR interviews, resume, aptitude, DSA, and company prep." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="src/style.css" />
+</head>
+
+<body class="chat-body">
+
+    <div class="app-wrapper">
+
+        <!-- ── LEFT SIDEBAR ── -->
+        <aside class="side-panel">
+            <div class="brand">
+                <a href="index.html" class="brand-link" title="Back to home">
+                    <div class="brand-logo">🤖</div>
+                </a>
+                <h1 class="brand-name">PlaceBot</h1>
+                <p class="brand-tagline">Personal Placement Mentor<br />for Engineering Students</p>
+            </div>
+
+            <div class="divider"></div>
+            <p class="panel-label">What I can help with</p>
+
+            <ul class="feature-list">
+                <li class="feature-item">
+                    <span class="fi-icon">🤝</span>
+                    <div><strong>HR Interview Prep</strong>
+                        <p>Common questions, model answers, follow-ups</p>
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <span class="fi-icon">📄</span>
+                    <div><strong>Resume Building</strong>
+                        <p>Bullet points, skills, ATS optimization</p>
+                    </div>
+                </li>
+                <li class="feature-item">
+                    <span class="fi-icon">🧮</span>
+                    <div><strong>Aptitude &amp; Reasoning</strong>
+                        <p>Quantitative, logical, verbal with solutions</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="divider"></div>
+
+            <!-- API Key -->
+            <div class="api-section">
+                <p class="panel-label">API Key <span class="api-status-badge" id="apiStatusBadge">Not set</span></p>
+                <div class="api-input-row">
+                    <input type="password" id="apiKeyInput" placeholder="Groq / Gemini / OpenAI key…"
+                        autocomplete="off" />
+                    <button id="apiSaveBtn">Save</button>
+                </div>
+                <p class="api-hint">Groq (gsk_…) · Gemini (AIza…) · OpenAI (sk-…)</p>
+            </div>
+        </aside>
+
+    </div>
+
+    <script src="src/theme.js"></script>
+    <script src="src/script.js"></script>
+</body>
+
+</html>
