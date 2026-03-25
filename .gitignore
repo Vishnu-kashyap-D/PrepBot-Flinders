@@ -1,0 +1,22 @@
+# .gitignore — PlaceBot
+
+# Never commit API keys or secrets
+*.env
+.env*
+secrets.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor folders
+.vscode/
+.idea/
+
+# Node / package (not used but just in case)
+node_modules/
+package-lock.json
+
+# Parcel build output (from original starter)
+dist/
+.cache/
