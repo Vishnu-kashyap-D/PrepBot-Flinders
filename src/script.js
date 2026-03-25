@@ -65,3 +65,116 @@ const inputRow = document.getElementById("inputRow");
 const apiKeyInput = document.getElementById("apiKeyInput");
 const apiSaveBtn = document.getElementById("apiSaveBtn");
 const apiStatusBadge = document.getElementById("apiStatusBadge");
+
+/* ═══════════════════════════════════════════════════════════
+   UI & UTILS
+═══════════════════════════════════════════════════════════ */
+
+/** Auto-resize textarea */
+function autoResizeTextarea() {
+  userInput.style.height = "auto";
+  userInput.style.height = userInput.scrollHeight + "px";
+}
+
+/** Scroll to bottom smoothly */
+function scrollToBottom() {
+  chatWindow.scrollTo({ top: chatWindow.scrollHeight, behavior: "smooth" });
+}
+
+/** Format time (e.g., "14:30") */
+function getTimeStr() {
+  const now = new Date();
+  return now.getHours().toString().padStart(2, "0") + ":" +
+    now.getMinutes().toString().padStart(2, "0");
+}
+
+/** Safely escape HTML to prevent XSS */
+function escapeHtml(unsafe) {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
+/* ── DOM Manipulation ───────────────────────────────────── */
+
+/**
+ * Creates and appends a chat bubble.
+ * @param {string} content - HTML string (already markdown parsed).
+ * @param {"user"|"bot"} role
+ */
+function appendMessage(content, role) {
+  if (welcomeCard) welcomeCard.style.display = "none";
+
+  const row = document.createElement("div");
+  row.className = `msg-row ${role}`;
+
+  const avatar = document.createElement("div");
+  avatar.className = "msg-avatar";
+  avatar.textContent = role === "bot" ? "🤖" : "👤";
+
+  const body = document.createElement("div");
+  body.className = "msg-body";
+
+  const bubble = document.createElement("div");
+  bubble.className = "msg-bubble";
+  bubble.innerHTML = content; // content is trusted here (parsed MD)
+
+  const time = document.createElement("div");
+  time.className = "msg-time";
+  time.textContent = getTimeStr();
+
+  body.appendChild(bubble);
+  body.appendChild(time);
+  row.appendChild(avatar);
+  row.appendChild(body);
+  chatWindow.appendChild(row);
+
+  scrollToBottom();
+}
+
+/** Show the animated typing dot indicator */
+function showTyping() {
+  const row = document.createElement("div");
+  row.className = "msg-row bot";
+  row.id = "typingIndicator";
+
+  const avatar = document.createElement("div");
+  avatar.className = "msg-avatar";
+  avatar.textContent = "🤖";
+
+  const body = document.createElement("div");
+  body.className = "msg-body";
+
+  const bubble = document.createElement("div");
+  bubble.className = "msg-bubble typing-indicator";
+
+  for (let i = 0; i < 3; i++) {
+    const dot = document.createElement("div");
+    dot.className = "typing-dot";
+    bubble.appendChild(dot);
+  }
+
+  body.appendChild(bubble);
+  row.appendChild(avatar);
+  row.appendChild(body);
+  chatWindow.appendChild(row);
+
+  scrollToBottom();
+}
+
+/** Remove the typing indicator */
+function hideTyping() {
+  const el = document.getElementById("typingIndicator");
+  if (el) el.remove();
+}
+
+/** Lock/Unlock UI during API calls */
+function setInputLocked(locked) {
+  userInput.disabled = locked;
+  sendBtn.disabled = locked;
+
+  // Visual dimming on the send button wrapper
+  if (locked) inputRow.style.opacity = "0.7";
+  else inputRow.style.opacity = "1";
+}
