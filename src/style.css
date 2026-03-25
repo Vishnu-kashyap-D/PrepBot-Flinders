@@ -290,3 +290,35 @@ ul {
   height: 36px;
   background: var(--border)
 }
+/* -- Section Header -- */
+.section-header{text-align:center;margin-bottom:52px}
+.section-header h2{font-size:clamp(24px,4vw,36px);font-weight:700;letter-spacing:-.5px;margin-bottom:10px}
+.section-header p{font-size:15px;color:var(--text-dim);max-width:520px;margin:0 auto}
+
+/* -- Features Grid -- */
+.features{max-width:1100px;margin:0 auto;padding:80px 24px;border-top:1px solid var(--border)}
+.features-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px}
+.feature-card{background:var(--card-bg);border:1px solid var(--border);border-radius:14px;padding:24px;transition:border-color .18s,box-shadow .18s,transform .18s}
+.feature-card:hover{border-color:var(--accent);box-shadow:0 4px 20px var(--accent-glow);transform:translateY(-2px)}
+.fc-icon{font-size:28px;margin-bottom:12px}
+.feature-card h3{font-size:16px;font-weight:600;margin-bottom:8px}
+.feature-card p{font-size:13.5px;color:var(--text-dim);line-height:1.6;margin-bottom:12px}
+.fc-list{display:flex;flex-direction:column;gap:4px}
+.fc-list li{font-size:12.5px;color:var(--text-muted);padding-left:14px;position:relative}
+.fc-list li::before{content:"·";position:absolute;left:4px;color:var(--accent)}
+.cta-card{background:var(--accent-dim);border-color:rgba(108,99,255,.35)}
+.cta-card h3{color:var(--accent-hover)}
+
+/* -- How it works -- */
+.how-it-works{max-width:900px;margin:0 auto;padding:80px 24px;border-top:1px solid var(--border)}
+.steps-row{display:flex;align-items:flex-start;gap:16px;flex-wrap:wrap;justify-content:center}
+.step{flex:1;min-width:200px;text-align:center;padding:24px 20px;background:var(--card-bg);border:1px solid var(--border);border-radius:14px}
+.step-num{width:40px;height:40px;background:var(--accent);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px;margin:0 auto 14px}
+.step h4{font-size:15px;font-weight:600;margin-bottom:8px}.step p{font-size:13px;color:var(--text-dim);line-height:1.6}
+.step-arrow{font-size:22px;color:var(--text-muted);padding-top:36px;flex-shrink:0}
+
+/* -- Footer -- */
+.footer{border-top:1px solid var(--border);padding:48px 24px;background:var(--surface)}
+.footer-inner{max-width:600px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center}
+.footer-brand{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:700}
+.footer-note{font-size:13px;color:var(--text-dim)}
