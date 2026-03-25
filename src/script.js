@@ -344,3 +344,113 @@ async function fetchGeminiReply(userText) {
 
   return reply;
 }
+
+/* -----------------------------------------------------------
+   MAIN HANDLERS & EVENTS
+----------------------------------------------------------- */
+
+/** Core function to handle sending a message */
+async function handleSend(forcedPrompt = null) {
+  // If a request is already in flight, outright reject to prevent double calls.
+  if (isRequestPending) {
+    console.warn("PlaceBot: Request already pending. Ignoring duplicate click.");
+    return;
+  }
+
+  const text = (forcedPrompt || userInput.value).trim();
+  if (!text) return;
+
+  if (!API_KEY) {
+    appendMessage(
+      "**Error:** No API key found. Please enter your Groq, Gemini, or OpenAI key in the left sidebar.",
+      "bot"
+    );
+    return;
+  }
+
+  // 1. Lock the system
+  isRequestPending = true;
+  setInputLocked(true);
+
+  // 2. Clear input & show user text
+  userInput.value = "";
+  userInput.style.height = "auto";
+  appendMessage(escapeHtml(text), "user");
+  showTyping();
+
+  // 3. Fetch from API
+  try {
+    const reply = await fetchBotReply(text);
+    hideTyping();
+    const parsedReply = renderMarkdown(reply);
+    appendMessage(parsedReply, "bot");
+  } catch (err) {
+    hideTyping();
+    appendMessage(`**Error:** ${err.message}`, "bot");
+    // On error, remove the last user message from context so they can retry
+    if (conversationHistory.length > 0 && conversationHistory[conversationHistory.length - 1].role === "user") {
+      conversationHistory.pop();
+    }
+  } finally {
+    // 4. Unlock the system
+    setInputLocked(false);
+    isRequestPending = false;
+    userInput.focus();
+  }
+}
+
+/* -- EVENT LISTENERS -------------------------------------- */
+
+sendBtn.addEventListener("click", () => handleSend());
+
+userInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    if (!isRequestPending) {
+      handleSend();
+    }
+  }
+});
+
+userInput.addEventListener("input", autoResizeTextarea);
+
+clearBtn.addEventListener("click", () => {
+  if (isRequestPending) return; // Prevent clearing mid-request
+  conversationHistory.length = 0;
+  chatWindow.innerHTML = "";
+  if (welcomeCard) chatWindow.appendChild(welcomeCard);
+  welcomeCard.style.display = "block";
+});
+
+/* Quick actions */
+document.querySelectorAll(".qa-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    if (isRequestPending) return;
+    const prompt = btn.getAttribute("data-prompt");
+    handleSend(prompt);
+  });
+});
+
+/* API Key Logic */
+apiSaveBtn.addEventListener("click", () => {
+  const val = apiKeyInput.value.trim();
+  if (val) {
+    API_KEY = val;
+    localStorage.setItem("placebot_api_key", val);
+    apiStatusBadge.textContent = "Saved";
+    apiStatusBadge.classList.add("saved");
+    apiKeyInput.value = "";
+  }
+});
+
+/* -- INIT ------------------------------------------------- */
+function initChatBase() {
+  const savedKey = localStorage.getItem("placebot_api_key");
+  if (savedKey) {
+    API_KEY = savedKey;
+    apiStatusBadge.textContent = "Saved";
+    apiStatusBadge.classList.add("saved");
+  }
+}
+
+initChatBase();
