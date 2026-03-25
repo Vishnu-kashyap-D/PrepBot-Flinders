@@ -81,3 +81,6 @@ Pure **HTML5** · **CSS3** · **Vanilla JavaScript** — zero dependencies.
 ## 👨‍💻 Author
 
 **Vishnu Kashyap D** · Built for the Flinders AI Hackathon
+
+---
+*Version 1.0.0 � Ready for hackathon submission.*
