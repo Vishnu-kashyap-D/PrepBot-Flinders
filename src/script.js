@@ -11,7 +11,7 @@
 /** Paste your Groq (gsk_...), Gemini (AIza...) or OpenAI (sk-...) key here,
  *  or enter it at runtime via the sidebar API key input.
  *  NEVER commit a real key to version control. */
-let API_KEY = "API_KEY";
+let API_KEY = "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";
 
 /* API Endpoints */
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
