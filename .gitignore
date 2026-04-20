@@ -1,4 +1,4 @@
-# .gitignore — PlaceBot
+# .gitignore — PrepBot
 
 # Never commit API keys or secrets
 *.env
