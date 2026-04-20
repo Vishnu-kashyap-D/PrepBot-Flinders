@@ -2,11 +2,11 @@
 
 > An AI-powered placement preparation chatbot for engineering undergraduate students.
 
-PlaceBot is a **topic-locked AI chatbot** that acts as your personal placement mentor. Built with plain HTML, CSS and JavaScript — no frameworks, no backend, no installations.
+PrepBot is a **topic-locked AI chatbot** that acts as your personal placement mentor. Built with plain HTML, CSS and JavaScript — no frameworks, no backend, no installations.
 
 ---
 
-## 🎯 What PlaceBot Helps With
+## 🎯 What PrepBot Helps With
 
 - 🤝 **HR Interviews** — common questions, model answers, follow-ups
 - 📄 **Resume Building** — ATS tips, bullet points, project descriptions
@@ -21,7 +21,7 @@ PlaceBot is a **topic-locked AI chatbot** that acts as your personal placement m
 ## 🗂 Project Structure
 
 ```
-PlaceBot/
+PrepBot/
 ├── index.html          # Landing page
 ├── chat.html           # Chatbot interface
 ├── README.md

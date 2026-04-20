@@ -1,5 +1,5 @@
 /**
- * PLACEBOT — script.js
+ * PrepBot — script.js
  * Contains all business logic, API routing, markdown rendering,
  * conversation history management, and topic-locking.
  */
@@ -20,7 +20,7 @@ const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
  * Topic Locking System Prompt
  * Sent as the first "system" message in every request.
  */
-const SYSTEM_PROMPT = `You are PlaceBot, a highly professional, concise, and expert placement mentor for engineering undergraduate students.
+const SYSTEM_PROMPT = `You are PrepBot, a highly professional, concise, and expert placement mentor for engineering undergraduate students.
 Your ONLY purpose is to help students with campus placement preparation. This includes:
 1. HR Interview questions and answers.
 2. Technical interviews (DSA, web dev, core subjects).
@@ -290,7 +290,7 @@ async function fetchGroqReply(userText) {
 async function handleSend(forcedPrompt = null) {
   // If a request is already in flight, outright reject to prevent double calls.
   if (isRequestPending) {
-    console.warn("PlaceBot: Request already pending. Ignoring duplicate click.");
+    console.warn("PrepBot: Request already pending. Ignoring duplicate click.");
     return;
   }
 
@@ -365,7 +365,7 @@ apiSaveBtn.addEventListener("click", () => {
   const val = apiKeyInput.value.trim();
   if (val) {
     API_KEY = val;
-    localStorage.setItem("placebot_api_key", val);
+    localStorage.setItem("PrepBot_api_key", val);
     apiStatusBadge.textContent = "Saved";
     apiStatusBadge.classList.add("saved");
     apiKeyInput.value = "";
@@ -374,7 +374,7 @@ apiSaveBtn.addEventListener("click", () => {
 
 /* -- INIT ------------------------------------------------- */
 function initChatBase() {
-  const savedKey = localStorage.getItem("placebot_api_key");
+  const savedKey = localStorage.getItem("PrepBot_api_key");
   if (savedKey) {
     API_KEY = savedKey;
     apiStatusBadge.textContent = "Saved";

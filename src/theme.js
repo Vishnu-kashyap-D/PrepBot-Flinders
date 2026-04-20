@@ -1,10 +1,10 @@
 /**
- * PlaceBot — theme.js
+ * PrepBot — theme.js
  * Shared dark / light mode toggle for all pages.
- * Persists preference in localStorage under "placebot_theme".
+ * Persists preference in localStorage under "PrepBot_theme".
  */
 (function () {
-    const STORAGE_KEY = "placebot_theme";
+    const STORAGE_KEY = "PrepBot_theme";
     const root = document.documentElement;
 
     function applyTheme(theme) {
