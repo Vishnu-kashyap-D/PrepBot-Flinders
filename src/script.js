@@ -250,11 +250,8 @@ async function fetchBotReply(userText) {
   return fetchGroqReply(userText);
 }
 
-/** Groq API interaction */
+/** Groq API interaction - Using securely routed Vercel Serverless Function */
 async function fetchGroqReply(userText) {
-  const endpoint = GROQ_URL;
-  const model = "llama-3.3-70b-versatile";
-
   // Build messages array
   const messages = [
     { role: "system", content: SYSTEM_PROMPT },
@@ -262,18 +259,12 @@ async function fetchGroqReply(userText) {
     { role: "user", content: userText }
   ];
 
-  const response = await fetch(endpoint, {
+  const response = await fetch("/api/chat", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${API_KEY}`
+      "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      model: model,
-      messages: messages,
-      temperature: 0.7,
-      max_tokens: 1024
-    })
+    body: JSON.stringify({ messages: messages })
   });
 
   if (!response.ok) {
@@ -308,7 +299,7 @@ async function handleSend(forcedPrompt = null) {
 
   if (!API_KEY) {
     appendMessage(
-      "**Error:** No API key found. Please enter your Groq key in the left sidebar.",
+      "**Error:** No API key found. Make sure GROQ_API_KEY is configured in your Vercel Environment Variables.",
       "bot"
     );
     return;
