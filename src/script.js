@@ -297,14 +297,6 @@ async function handleSend(forcedPrompt = null) {
   const text = (forcedPrompt || userInput.value).trim();
   if (!text) return;
 
-  if (!API_KEY) {
-    appendMessage(
-      "**Error:** No API key found. Make sure GROQ_API_KEY is configured in your Vercel Environment Variables.",
-      "bot"
-    );
-    return;
-  }
-
   // 1. Lock the system
   isRequestPending = true;
   setInputLocked(true);
